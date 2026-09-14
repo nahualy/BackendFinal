@@ -34,6 +34,8 @@ export const up = async () => {
       FOREIGN KEY ("role") REFERENCES "role"("id") ON DELETE SET NULL
   `);
 
+  await sequelize.query('ALTER TABLE "users" DROP CONSTRAINT IF EXISTS "users_role_allowed_check"');
+
   await sequelize.query('CREATE INDEX IF NOT EXISTS "users_email_idx" ON "users" ("email")');
   await sequelize.query(`
     SELECT setval(

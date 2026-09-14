@@ -18,6 +18,22 @@ const roleInclude = {
   attributes: ['id', 'name'],
 };
 
+const findRole = (roleValue, options = {}) => {
+  const numericRole = Number(roleValue);
+  if (Number.isInteger(numericRole) && numericRole > 0) {
+    return Role.findByPk(numericRole, options);
+  }
+
+  if (typeof roleValue === 'string' && roleValue.trim()) {
+    return Role.findOne({
+      where: { name: roleValue.trim() },
+      ...options,
+    });
+  }
+
+  return null;
+};
+
 const toPublicUser = (user) => {
   const data = user.toJSON();
   return {
@@ -74,7 +90,7 @@ export const createUser = async (userData) => {
       throw error;
     }
 
-    const role = await Role.findByPk(Number(userData.role), { transaction });
+    const role = await findRole(userData.role, { transaction });
     if (!role) {
       const error = new Error('El rol indicado no existe');
       error.code = 'ROLE_NOT_FOUND';
@@ -129,8 +145,9 @@ export const updateUser = async (id, userData) => {
       changes.email = email;
     }
 
-    if (userData.role !== undefined) {
-      const role = await Role.findByPk(Number(userData.role), { transaction });
+    const roleValue = userData.role ?? userData.roleId;
+    if (roleValue !== undefined) {
+      const role = await findRole(roleValue, { transaction });
       if (!role) {
         const error = new Error('El rol indicado no existe');
         error.code = 'ROLE_NOT_FOUND';
@@ -143,7 +160,7 @@ export const updateUser = async (id, userData) => {
     await transaction.commit();
     return getUserById(user.id);
   } catch (error) {
-    await transaction.rollback();
+    if (!transaction.finished) await transaction.rollback();
     throwDatabaseError(error);
   }
 };

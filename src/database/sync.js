@@ -3,6 +3,7 @@ import 'dotenv/config';
 import sequelize from '../config/database.js';
 import createRoleTable from './migrations/001-create-role-table.js';
 import createUsersTable from './migrations/002-create-users-table.js';
+import createProvidersTable from './migrations/003-create-providers-table.js';
 import seedRoles from './seeders/001-insert-roles.js';
 
 export const runMigrations = async () => {
@@ -10,6 +11,8 @@ export const runMigrations = async () => {
   console.log('Migración 001 completada: tabla role.');
   await createUsersTable();
   console.log('Migración 002 completada: tabla users.');
+  await createProvidersTable();
+  console.log('Migración 003 completada: tabla providers.');
 };
 
 export const syncDatabase = async () => {

@@ -16,5 +16,6 @@ app.use(express.json());
 app.use(express.static(path.join(currentDirectory, '../public')));
 app.use('/api', routes);
 app.use('/api/admin', usersRoutes);
+app.use('/api/admin/usuarios', usersRoutes);
 
 export default app;

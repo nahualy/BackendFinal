@@ -92,6 +92,23 @@ const inventory = {
   subModules: [inventoryProducts, inventoryStock, inventoryMovements, inventoryProviders],
 };
 
+const providerManagement = {
+  id: 'sub-providers-manage',
+  name: 'Gestionar',
+  description: 'Gestión de proveedores.',
+  route: '/proveedores/gestionar',
+  isActive: true,
+};
+
+const providers = {
+  id: 'mod-providers',
+  name: 'Proveedores',
+  description: 'Gestión de proveedores.',
+  route: '/proveedores',
+  isActive: true,
+  subModules: [providerManagement],
+};
+
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
 export const roleMenus = {
@@ -106,6 +123,7 @@ export const roleMenus = {
     { ...clone(inventory), subModules: [clone(inventoryProducts)] },
   ],
   GestorInventario: [clone(inventory)],
+  proveedor: [clone(providers)],
 };
 
 export const roles = [
@@ -113,6 +131,7 @@ export const roles = [
   { id: 2, name: 'Gerente', menu: roleMenus.Gerente },
   { id: 3, name: 'Vendedor', menu: roleMenus.Vendedor },
   { id: 4, name: 'GestorInventario', menu: roleMenus.GestorInventario },
+  { id: 5, name: 'proveedor', menu: roleMenus.proveedor },
 ];
 
 export const seed = async () => {

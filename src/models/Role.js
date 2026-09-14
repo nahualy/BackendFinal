@@ -10,6 +10,7 @@ export const ROLE_NAMES = [
   'Admin',
   'Seller',
   'Analyst',
+  'proveedor',
 ];
 
 const Role = sequelize.define('Role', {

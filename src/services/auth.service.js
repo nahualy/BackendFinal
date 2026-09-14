@@ -20,6 +20,7 @@ const roleIds = {
   GestorInventario: 4,
   Analyst: 4,
   Analista: 4,
+  proveedor: 5,
 };
 
 export const hashPassword = (password) => bcrypt.hash(password, saltRounds);
